@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>BPI</title>
+  </head>
+  <style>
+  body{
+  margin: 120px;
+  background-color: #bfe8ff;
+}
+h1{
+  color: white;
+  font-family: helvetica;
+  font-style: italic;
+  font-size: 40px;
+  text-align: center;
+}
+
+p{
+  color: white;
+  font-style: bold;
+  font-family: helvetica;
+  font-size: 50px;
+  text-align: center;
+    background-color: #ffeded;
+  opacity: .8;
+  padding: 30px;
+  margin: 20px;
+  border-radius: 30px;
+}
+
+button {
+  text-align: center;
+  margin: 0 30% 0 30%;
+  padding: 20px;
+  background-color: #ffc044;
+  color: white;
+  border-radius: 10px;
+  font-family: Sans-serif;
+  font-size: 15px;
+}
+  </style>
+  <body>
+    <h1>BPI : Bitcoin Price Index</h1>
+    <button id="btn">Click the button to get the current price</button>
+
+    <p id="price"></p>
+  </body>
+<script>
+var btn = document.querySelector("#btn");
+  var price = document.querySelector("#price");
+  var currency = "EUR"
+  var XMLReq = function() {
+  var XHR = new XMLHttpRequest();
+  XHR.onreadystatechange = () => {
+    if(XHR.readyState == 4 && XHR.status == 200) {
+      var currentRate = JSON.parse(XHR.responseText).bpi[currency].rate;
+      price.innerHTML = ` ${currentRate} ${currency}` ;
+    }
+  };
+  var url = "https://api.coindesk.com/v1/bpi/currentprice/EUR.json";
+  XHR.open("GET", url);
+  XHR.send();
+  }
+  window.addEventListener("load", XMLReq);
+  btn.addEventListener("click", XMLReq);
+  </script>
+</html>
